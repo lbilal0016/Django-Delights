@@ -2,7 +2,9 @@
 {% load static %}
 {% block title%}Home{% endblock %}
 {% block content %}
-    <div class="card"><a href="{% url 'menus' %}">Menus</a></div>
-    <div class="card">Ingredients</div>
-    <div class="card">Purchases</div>
+    <div class="home-options-container">
+        <div class="home-option"><a href="{% url 'menus' %}">Menus</a></div>
+        <div class="home-option">Ingredients</div>
+        <div class="home-option">Purchases</div>
+    </div>
 {% endblock %}

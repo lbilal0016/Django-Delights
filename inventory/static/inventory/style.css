@@ -2,11 +2,22 @@ h1{
     font-weight: 800;
 }
 
-.card {
+.home-options-container{
     display: flex;
+    flex-direction: column;
+    margin-top: 1%;
+    justify-content: space-between;
 }
 
-.card-content{
-    margin-left: 0.5%;
-    margin-right: 0.5%;
+.card {
+    display: flex;
+    margin-right: 90%;
+    margin-bottom: 0.5%;
+    justify-content: space-between;
+}
+
+.control-buttons-container{
+    display: flex;
+    margin-right: 70%;
+    justify-content: space-between;
 }
