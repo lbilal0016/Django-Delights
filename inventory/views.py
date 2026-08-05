@@ -7,3 +7,9 @@ class HomeView(TemplateView):
 
 class MenuView(TemplateView):
     template_name = "inventory/menus.html"
+
+class IngredientsView(TemplateView):
+    template_name = "inventory/ingredients.html"
+
+class PurchasesView(TemplateView):
+    template_name = "inventory/purchases.html"
