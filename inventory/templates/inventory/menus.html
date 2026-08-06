@@ -5,17 +5,15 @@
     <h2>Menus</h2>
     {#  The following is a placeholder  #}
     <div class="card-container">
+        {% for menu in menus %}
         <div class="card">
-            <div class="card-content">Menu 1</div>
-            <div class="card-content">xx$</div>
-        </div>
-        <div class="card">
-            <div class="card-content">Menu 2</div>
-            <div class="card-content">xx$</div>
-        </div>
+            <div class="card-content">{{menu.name}}</div>
+            <div class="card-content">{{menu.price}}$</div>
+        </div> 
+        {% endfor %}
     </div>
     <div class="control-buttons-container">
-        <div class="control-button">Add new menu</div>
+        <div class="control-button"><a href="{% url 'menucreate' %}">Add new menu</a></div>
         <div class="control-button">Edit menu</div>
         <div class="control-button">Delete menu</div>
     </div>

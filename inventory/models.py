@@ -9,6 +9,9 @@ class Ingredient(models.Model):
     unit_price = models.DecimalField(max_digits=10, decimal_places=2,validators=[MinValueValidator(0)])
     stock_amount = models.DecimalField(max_digits=10, decimal_places=2,validators=[MinValueValidator(0)])
 
+    def __str__(self):
+        return self.name
+
 # Create your models here.
 class MenuItem(models.Model):
     name = models.CharField(max_length=30)
@@ -20,6 +23,9 @@ class MenuItem(models.Model):
     )
 
     price = models.DecimalField(max_digits=10, decimal_places=2,validators=[MinValueValidator(0)])
+
+    def __str__(self):
+            return self.name
 
 
 #   This model manages menu N --- N ingredient many-to-many relationship
@@ -46,6 +52,9 @@ class RecipeRequirement(models.Model):
             )
         ]
 
+    def __str__(self):
+            return f"{self.menu_item} - {self.ingredient}: {self.quantity}"
+
 class Purchase(models.Model):
     #   models.PROTECT: avoids deleting a menu item if there is a purchase including this menu
     purchased_item = models.ForeignKey(MenuItem, on_delete=models.PROTECT, related_name="purchases")
@@ -58,3 +67,6 @@ class Purchase(models.Model):
         decimal_places=2,
         editable=False,
     )
+
+    def __str__(self):
+            return f"{self.purchased_item} x {self.purchase_amount}"

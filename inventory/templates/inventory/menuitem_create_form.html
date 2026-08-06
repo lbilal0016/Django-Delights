@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title%}Create a new menu{% endblock %}
+{% block content %}
+
+<h2>Create a new menu</h2>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Add new menu"/>
+</form>
+
+{% endblock %}

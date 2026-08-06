@@ -9,13 +9,15 @@ class IngredientCreateForm(forms.ModelForm):
 class MenuItemCreateForm(forms.ModelForm):
     class Meta:
         model = MenuItem
-        fields = ["name", "price"]
+        #  todo: ingredients will be added after ingredients view is complete
+        fields = ["name", "price",]
 
 class PurchaseCreateForm(forms.ModelForm):
     class Meta:
         model = Purchase
         fields = "__all__"
 
-class RecipeRequirements(forms.ModelForm):
+class RecipeRequirementCreateForm(forms.ModelForm):
     class Meta:
-        fields = ["menu_item", "ingredient", "quantity"]    
+        model = RecipeRequirement
+        fields = ["ingredient", "quantity"]    

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title%}Add new ingredient{% endblock %}
+{% block content %}
+
+<h2>Add ingredient to your menu</h2>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" name="action" value="add_another">Save and add another ingredient</button>
+    <button type="submit" name="action" value="finalize">Save ingredient and go back to menus</button>
+</form>
+
+{% endblock %}
