@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title%}Menu Ingredients{% endblock %}
+{% block content %}
+    <h2>Ingredients for {{ menu.name }}</h2>
+    {% for requirement in requirements %}
+        <div>
+            {{ requirement.ingredient.name }} - {{ requirement.quantity }}
+            <a href="{% url 'updatereciperequirement' menu.pk requirement.pk %}">Edit</a>
+        </div>
+    {% empty %}
+        <p>This menu has no ingredients yet.</p>
+    {% endfor %}
+
+    <a href="{% url 'createreciperequirement' menu.pk %}">Add another ingredient</a>
+    <a href="{% url 'menus' %}">Finish and return to menu page</a>
+{% endblock %}
