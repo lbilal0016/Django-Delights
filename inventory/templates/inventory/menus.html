@@ -10,11 +10,11 @@
             <div class="card-content">{{menu.name}}</div>
             <div class="card-content">{{menu.price}}$</div>
             <div class="card-content"><a href="{% url 'menuupdate' menu.id %}">Edit menu</a></div>
+            <div class="card-content"><a href="{% url 'deletemenu' menu.id %}">Delete menu</a></div>
         </div> 
         {% endfor %}
     </div>
     <div class="control-buttons-container">
         <div class="control-button"><a href="{% url 'menucreate' %}">Add new menu</a></div>
-        <div class="control-button">Delete menu</div>
     </div>
 {% endblock %}

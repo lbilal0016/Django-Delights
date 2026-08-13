@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title%}Update an ingredient{% endblock %}
+{% block content %}
+    <h2>Update ingredient</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Update" />
+    </form>
+{% endblock %}

@@ -42,7 +42,7 @@ class RecipeRequirement(models.Model):
         related_name="recipe_requirements"
     )
 
-    quantity = models.DecimalField(max_digits=10, decimal_places=2,validators=[MinValueValidator(1)])
+    quantity = models.DecimalField(max_digits=10, decimal_places=2,validators=[MinValueValidator(0.0001)])
 
     class Meta:
         constraints = [

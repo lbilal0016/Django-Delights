@@ -14,12 +14,12 @@
                 <td>{{ingredient.name}}</td>
                 <td>{{ingredient.unit_price}}</td>
                 <td>{{ingredient.stock_amount}}</td>
+                <td><a href="{% url 'updateingredient' ingredient.id %}">Edit ingredient</a></td>
+                <td><a href="{% url 'deleteingredient' ingredient.id %}">Delete ingredient</a></td>
             </tr>    
         {% endfor %}
     </table>
     <div class="control-buttons-container">
         <div class="control-button"><a href="{% url 'ingredientcreate' %}">Add new ingredient</a></div>
-        <div class="control-button">Edit ingredient</div>
-        <div class="control-button">Delete ingredient</div>
     </div>
 {% endblock %}

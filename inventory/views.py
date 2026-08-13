@@ -133,3 +133,51 @@ class RecipeRequirementUpdate(UpdateView):
             "menurequirements",
             kwargs={"menu_pk": self.kwargs["menu_pk"]},
         )
+
+class UpdateIngredientView(UpdateView):
+    model = Ingredient
+    template_name = "inventory/update_ingredient.html"
+    form_class = IngredientCreateForm
+
+    pk_url_kwarg = "ingredient_pk"
+
+    #   After updating menu name and price, menu requirement is updated
+    success_url = reverse_lazy("ingredients")
+
+#   Delete Views
+#   ----------------------------
+class DeleteMenuView(DeleteView):
+    model = MenuItem
+    template_name = "inventory/delete_menu.html"
+    success_url = "/menus"
+    pk_url_kwarg = "menu_pk"
+
+    def get_context_data(self, **kwargs):
+        context =  super().get_context_data(**kwargs)
+
+        menu = get_object_or_404(
+                    MenuItem,
+                    pk = self.kwargs["menu_pk"],
+                )
+
+        context["menu"] = menu
+
+        return context
+
+class DeleteIngredientView(DeleteView):
+    model = Ingredient
+    template_name = "inventory/delete_ingredient.html"
+    success_url = "/ingredients"
+    pk_url_kwarg = "ingredient_pk"
+
+    def get_context_data(self, **kwargs):
+        context =  super().get_context_data(**kwargs)
+
+        ingredient = get_object_or_404(
+                    Ingredient,
+                    pk = self.kwargs["ingredient_pk"],
+                )
+
+        context["ingredient"] = ingredient
+
+        return context
