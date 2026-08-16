@@ -8,16 +8,20 @@
             <th>Purchased Menu</th>
             <th>Amount</th>
             <th>Purchase Date</th>
+            <th>Update</th>
+            <th>Delete</th>
         </tr>
+        {% for purchase in purchases %}
         <tr>
-            <td>Menu 6</td>
-            <td>1</td>
-            <td>2026-07-06 13:59</td>
+            <td>{{purchase.purchased_item}}</td>
+            <td>{{purchase.purchase_amount}}</td>
+            <td>{{purchase.purchase_date}}</td>
+            <td><a href="{% url 'updatepurchase' purchase.id %}">Update {{purchase.purchased_item}} at {{purchase.purchase_date}}</a></td>
+            <td><a href="{% url 'deletepurchase' purchase.id %}">Delete {{purchase.purchased_item}} at {{purchase.purchase_date}}</a></td>
         </tr>
-        <tr>
-            <td>Menu 4</td>
-            <td>2</td>
-            <td>2026-07-05 20:37</td>
-        </tr>
+        {% endfor %}
     </table>
+    <div class="control-buttons-container">
+        <div class="control-button"><a href="{% url 'purchasecreate' %}">Add new purchase</a></div>
+    </div>
 {% endblock %}

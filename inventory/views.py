@@ -31,6 +31,12 @@ class IngredientsView(TemplateView):
 class PurchasesView(TemplateView):
     template_name = "inventory/purchases.html"
 
+    #   send purchase items to purchases.html template
+    def get_context_data(self, **kwargs):
+        context =  super().get_context_data(**kwargs)
+        context["purchases"] = Purchase.objects.all()
+        return context
+
 class MenuRequirementsView(TemplateView):
     template_name = "inventory/menu_requirements.html"
 
@@ -97,6 +103,20 @@ class IngredientCreate(CreateView):
 
     success_url = reverse_lazy("ingredients")
 
+class PurchaseCreate(CreateView):
+    model = Purchase
+    form_class = PurchaseCreateForm
+    template_name = "inventory/purchase_create_form.html"
+
+    def form_valid(self, form):
+        menu_item = form.instance.purchased_item
+        amount = form.instance.purchase_amount
+
+        form.instance.total_price_at_purchase = menu_item.price * amount
+
+        return super().form_valid(form)
+
+    success_url = reverse_lazy("purchases")
 
 #   Update Views
 #   ----------------------------
@@ -144,6 +164,16 @@ class UpdateIngredientView(UpdateView):
     #   After updating menu name and price, menu requirement is updated
     success_url = reverse_lazy("ingredients")
 
+class UpdatePurchaseView(UpdateView):
+    model = Purchase
+    template_name = "inventory/update_purchase.html"
+    form_class = PurchaseCreateForm
+
+    pk_url_kwarg = "purchase_pk"
+
+    success_url = reverse_lazy("purchases")
+
+
 #   Delete Views
 #   ----------------------------
 class DeleteMenuView(DeleteView):
@@ -179,5 +209,23 @@ class DeleteIngredientView(DeleteView):
                 )
 
         context["ingredient"] = ingredient
+
+        return context
+
+class DeletePurchaseView(DeleteView):
+    model = Purchase
+    template_name = "inventory/delete_purchase.html"
+    success_url = "/purchases"
+    pk_url_kwarg = "purchase_pk"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        purchase = get_object_or_404(
+            Purchase,
+            pk = self.kwargs["purchase_pk"]
+        )
+
+        context["purchase"] = purchase
 
         return context
