@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.db import transaction
 from .models import Ingredient, MenuItem, Purchase, RecipeRequirement
 from .forms import IngredientCreateForm, MenuItemCreateForm, PurchaseCreateForm, RecipeRequirementCreateForm
 
@@ -109,12 +110,59 @@ class PurchaseCreate(CreateView):
     template_name = "inventory/purchase_create_form.html"
 
     def form_valid(self, form):
-        menu_item = form.instance.purchased_item
-        amount = form.instance.purchase_amount
+        #   fetch validated form data
+        menu_item = form.cleaned_data["purchased_item"]
+        purchase_amount = form.cleaned_data["purchase_amount"]
 
-        form.instance.total_price_at_purchase = menu_item.price * amount
+        #   fetch menu requirements
+        requirements = list(
+            menu_item.recipe_requirements.select_related("ingredient")
+        )
 
-        return super().form_valid(form)
+        #   see if requirements is empty
+        if not requirements:
+            form.add_error(
+                "purchased_item",
+                "No requirement has been defined for this menu."
+            )
+
+            #   return form error
+            return self.form_invalid(form)
+
+        #   list to track insufficient ingredients
+        insufficient_ingredients = []
+
+        #   stock check for every ingredient
+        for requirement in requirements:
+            req_quantity = requirement.quantity * purchase_amount
+            ingredient = requirement.ingredient
+
+            #   add ingredient to list if it is not sufficient
+            if ingredient.stock_amount < req_quantity:
+                insufficient_ingredients.append(ingredient.name)
+            
+        if insufficient_ingredients:
+            form.add_error(
+                None,
+                "Stock is not sufficient for " + ", ".join(insufficient_ingredients)
+            )
+
+            return self.form_invalid(form)
+
+        #   update stock
+        with transaction.atomic():
+            for requirement in requirements:
+                req_quantity = requirement.quantity * purchase_amount
+                ingredient = requirement.ingredient
+
+                ingredient.stock_amount -= req_quantity
+                ingredient.save(update_fields=["stock_amount"])
+
+            form.instance.total_price_at_purchase = (
+                menu_item.price * purchase_amount
+            )
+
+            return super().form_valid(form)
 
     success_url = reverse_lazy("purchases")
 
