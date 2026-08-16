@@ -8,16 +8,20 @@
             <th>Purchased Menu</th>
             <th>Amount</th>
             <th>Purchase Date</th>
-            <th>Update</th>
-            <th>Delete</th>
+            {% comment 'the following is not going to be implemented for now' %}
+                <th>Update</th>
+                <th>Delete</th>
+            {% endcomment %}
         </tr>
         {% for purchase in purchases %}
         <tr>
             <td>{{purchase.purchased_item}}</td>
             <td>{{purchase.purchase_amount}}</td>
             <td>{{purchase.purchase_date}}</td>
-            <td><a href="{% url 'updatepurchase' purchase.id %}">Update {{purchase.purchased_item}} at {{purchase.purchase_date}}</a></td>
-            <td><a href="{% url 'deletepurchase' purchase.id %}">Delete {{purchase.purchased_item}} at {{purchase.purchase_date}}</a></td>
+            {% comment 'the following is not going to be implemented for now' %}
+                <td><a href="{% url 'updatepurchase' purchase.id %}">Update {{purchase.purchased_item}} at {{purchase.purchase_date}}</a></td>
+                <td><a href="{% url 'deletepurchase' purchase.id %}">Delete {{purchase.purchased_item}} at {{purchase.purchase_date}}</a></td>
+            {% endcomment %}
         </tr>
         {% endfor %}
     </table>
